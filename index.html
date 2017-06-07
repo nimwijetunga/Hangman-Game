@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+    <head> 
+        <title>Hangman - Nim Wijetunga</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body background = "background.jpg">
+        <h1 align="center" class="auto-style3">Hangman - Nim Wijetunga</h1>
+        <!--Buttons-->
+        <table border="0" style="width: 100%">
+			<tr>
+				<td style="width: 85px; height: 76px">
+        <input type ="button" value = "a" id = "b" class = "btn-group"/></td>
+				<td style="width: 85px; height: 76px">
+        <input type ="button" value = "b" id = "b" class = "btn-group"/></td>
+				<td style="width: 84px; height: 76px">
+        <input type ="button" value = "c" id = "c"class = "btn-group"/></td>
+				<td style="width: 88px; height: 76px">
+        <input type ="button" value= "d" id = "a" class = "btn-group"/></td>
+				<td style="width: 85px; height: 76px">
+        <input type ="button" value = "e" id = "b" class = "btn-group"/></td>
+				<td style="width: 82px; height: 76px">
+        <input type ="button" value = "f" id = "c" class = "btn-group"/></td>
+				<td style="width: 85px; height: 76px">
+        <input type ="button" value= "g" id = "a" class = "btn-group"/></td>
+				<td style="width: 82px; height: 76px">
+        <input type ="button" value = "h" id = "b" class = "btn-group"/></td>
+				<td style="width: 76px; height: 76px">
+        <input type ="button" value = "i" id = "c" class = "btn-group"/></td>
+				<td style="width: 81px; height: 76px">
+        <input type ="button" value= "j" id = "a" class = "btn-group"/></td>
+				<td style="width: 86px; height: 76px">
+        <input type ="button" value = "k" id = "b" class = "btn-group"/></td>
+				<td style="height: 76px; width: 80px;">
+        <input type ="button" value = "l" id = "c" class = "btn-group"/></td>
+				<td style="height: 76px; width: 56px;">
+        <input type ="button" value= "m" id = "a" class = "btn-group"/></td>
+		</tr>
+		<tr>
+				<td style="width: 85px">
+        <input type ="button" value = "n" id = "b" class = "btn-group"/></td>
+				<td style="width: 85px">
+        <input type ="button" value = "o" id = "c" class = "btn-group"/></td>
+				<td style="width: 84px">
+        <input type ="button" value= "p" id = "a" class = "btn-group"/></td>
+				<td style="width: 88px">
+        <input type ="button" value = "q" id = "b" class = "btn-group"/></td>
+				<td style="width: 85px">
+        <input type ="button" value = "r" id = "c" class = "btn-group"/></td>
+				<td style="width: 82px">
+        <input type ="button" value= "s" id = "a" class = "btn-group"/></td>
+				<td style="width: 85px">
+        <input type ="button" value = "t" id = "b" class = "btn-group"/></td>
+				<td style="width: 82px">
+        <input type ="button" value = "u" id = "c" class = "btn-group"/></td>
+				<td style="width: 76px">
+        <input type ="button" value= "v" id = "a" class = "btn-group"/></td>
+				<td style="width: 81px">
+        <input type ="button" value = "w" id = "b" class = "btn-group"/></td>
+				<td style="width: 86px">
+        <input type ="button" value = "x" id = "c" class = "btn-group"/></td>
+				<td style="width: 80px">
+        <input type ="button" value= "y" id = "a" class = "btn-group"/></td>
+				<td style="width: 56px">
+        <input type ="button" value = "z" id = "b" class = "btn-group"/></td>
+			</tr>
+		</table>
+		<br>
+		<!--Display from JS to HTML-->
+        <div id="update" class = "f_styling"> </div>
+        <br>
+        <div id="game_over" class = "f_styling"> </div>
+        <!--Canvas to Draw Hangman from JS-->
+        <br>
+        <table style="width: 100%" border = "0">
+			<tr>
+				<td style="width: 412px"> <div class = "f_styling">Hangman</div> </td>
+                    <td style="width: 400px"></td>
+                    <td><div class = "f_styling">Used Words</div></td>
+			</tr>
+			<tr>
+				<td style="width: 412px; height: 190px;">
+        <canvas id="hangman" width="281" height="189"></canvas></td>
+				<td style="width: 400px; height: 190px;"></td>
+				<td style="height: 190px"><div id = "used_words" class = "f_styling"></div></td>
+			</tr>
+			<tr>
+				<td style="width: 412px">
+        		&nbsp;</td>
+				<td style="width: 400px">&nbsp;</td>
+				<td>
+        <input type ="button" value= "Add Word" id = "a0" class = "btn-group"/></td>
+			</tr>
+		</table>
+        <!--Importing the JS File and JQuery-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="hangman.js"></script>
+    </body>
+</html>
