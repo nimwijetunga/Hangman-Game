@@ -1,17 +1,68 @@
 //document.getElementById("MyEdit").innerHTML = "12";
-var words = ['actor', 'danger', 'lungs', 'memory', 'skeleton', 'thumb', 'blizzard', 'galvanize', 'hangman', 'transcript'];
-var charW = [];
-var lives = 5;
-var ch;
+var words = ['actor', 'danger', 'lungs', 'memory', 'skeleton'];
+var charW, lives, ch;
 var a_canvas = document.getElementById("hangman");
 var context = a_canvas.getContext("2d");
-var terminateTime = 500;//milliseconds
 var endGame = false;
-var usedChars = [];
+var usedChars;
+var allText = "";
+var guessWord, guessArray;
+var lastIndex = 0;
+
+
+//Get contents from a text file
+function readTextFile(file)
+{
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                allText = rawFile.responseText;
+                return;
+            }
+        }
+    }
+    rawFile.send(null);
+}
+
+//Add words (from text file) to the words array
+var addFromFile = function(){
+    readTextFile('input.txt');
+    var arrAddWords = allText.split(" ");
+    for(var i = 0; i < arrAddWords.length; i++){
+        if(arrAddWords[i].length > 2)
+            words.push(arrAddWords[i]);
+    }
+}
+
+//Start a new game (Resets all varaibles)
+var resetGame = function(){
+    document.getElementById("game_over").innerHTML = "";
+    endGame = false;
+    lives = 5;
+    guessArray = [];
+    usedChars = [];
+    guessWord = getWord(words.length);
+    console.log(guessWord);
+    charW = wordToArr(guessWord);
+    //Creates a blank word for the length of the word to be guessed
+    for(var i = 0; i < charW.length; i++){
+        guessArray[i] = "_";
+    }
+}
 
 //generates a random word from an array of words
 var getWord = function (max) {
-    return words[Math.floor((Math.random() * max))];
+    var randWord = 0;
+    do{
+      randWord =  Math.floor((Math.random() * max)); 
+    }while(randWord === lastIndex);//Ensures that the same word is not picked twice in a row
+    lastIndex = randWord;
+    return words[randWord];
 }
 
 //converts a character array to a string array
@@ -33,14 +84,8 @@ var wordToArr = function(word){
 }
 
 //Get the word the user has to guess and make it into a character array
-var guessWord = getWord(words.length);
-var guessArray = [];
-charW = wordToArr(guessWord);
-
-//Creates a blank word for the length of the word to be guessed
-for(var i = 0; i < charW.length; i++){
-    guessArray[i] = "_";
-}
+addFromFile();
+resetGame();
 
 //Identify which letters have been guessed so far
 var addUsedChars = function(char){
@@ -80,10 +125,8 @@ var inWord = function(array, char){
     
     addUsedChars(char);
     document.getElementById("used_words").innerHTML = arrtoStr(usedChars);
-    if(gameWon(charW)){
+    if(gameWon(charW))
         document.getElementById("game_over").innerHTML = "YOU WON!";
-        reload();
-    }
     //Game Over Message
     if(lives > 0){
         mainDraw(lives);
@@ -92,18 +135,10 @@ var inWord = function(array, char){
         document.getElementById("game_over").innerHTML = "GAME OVER!";
         lives = 0;
         endGame = true;
-        reload();
+        //reload();
     }
     charW = charArr;
 }
-
-//Reload-Refresh the Page
-var reload = function(){
-     setTimeout(function() {
-            location.reload();
-        },terminateTime);
-}
-
 
 //Check to see if the word has been guessed
 var gameWon = function(arr){
@@ -116,9 +151,16 @@ var gameWon = function(arr){
     return true;
 }
 
+var wordExists = function(word){
+    for(var i = 0; i < words.length; i++){
+        if(words[i].toLowerCase === word)
+            return true;
+    }
+    return false;
+}
+
 //Draw the hangman face according to the lives the user has left
 var mainDraw = function(lives){
-   console.log("Here");
     switch(lives){
         case 4://draw face
             drawFace();
@@ -180,11 +222,18 @@ var drawBody = function(){
 //JQuery code to detect button presses
 $('input:button').click(function() {
     var c = $(this).val();//get the value of the button clicked
-    if(!endGame && c != "Add Word")
-        inWord(charW, c);
-    else if(c === "Add Word"){
-        var wordAdd = prompt("Which Word Would You Like to Add?")
+    if(c == "Add Word"){
+        var word = prompt("What word would you like to add? (Note: It Will Not Accept Spaces)");
+        word = word.replace(/\s/g,'');
+        if(!wordExists()){
+            words.push(word);
+        }
+    }else if(c == "New Game"){
+        context.clearRect(0, 0, a_canvas.width, a_canvas.height);
+        resetGame();
     }
+    else if(!endGame)
+        inWord(charW, c);
     document.getElementById("update").innerHTML = arrtoStr(guessArray);
 })
 
